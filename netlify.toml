@@ -1,0 +1,10 @@
+[build]
+  command = ""
+  functions = "netlify/functions"   # where our function lives
+  publish = "public"                 # optional; static files if any
+
+# (Optional) If you want a pretty path like /api/health
+[[redirects]]
+  from = "/api/health"
+  to = "/.netlify/functions/health-proxy"
+  status = 200
