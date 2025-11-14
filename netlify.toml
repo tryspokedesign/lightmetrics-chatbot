@@ -1,3 +1,6 @@
+[functions]
+directory = "netlify/functions" 
+
 [build]
   command = ""
   functions = "netlify/functions"   # where our function lives
@@ -8,3 +11,21 @@
   from = "/api/health"
   to = "/.netlify/functions/health-proxy"
   status = 200
+
+
+[[redirects]]
+  from = "/api/all-categories"
+  to = "/.netlify/functions/all-categories"
+  status = 200
+
+[[redirects]]
+from = "/api/category-questions"
+to   = "/.netlify/functions/category-questions"
+status = 200
+
+# Also catch trailing slash or any extra path bits
+[[redirects]]
+from = "/api/health/*"
+to   = "/.netlify/functions/health-proxy"
+status = 200
+force = true

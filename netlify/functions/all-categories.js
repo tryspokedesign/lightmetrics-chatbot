@@ -1,8 +1,8 @@
 // netlify/functions/health-proxy.js
 
 const UPSTREAM_URL =
-  process.env.ALL_CATEGORY ||
-  "https://reseller-api-dev.lightmetrics.co/v1/llm-kb/health-check";
+//   process.env.ALL_CATEGORY ||
+  "https://reseller-api-dev.lightmetrics.co/v1/llm-kb/all-categories";
 
 const ALLOWED_ORIGINS = [
   "https://lightmetrics-chatbot.netlify.app",
