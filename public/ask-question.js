@@ -9,6 +9,8 @@ const ANSWER_ENDPOINT =
 window.__lastQuestion = "";
 window.__lastAnswer = "";
 window.__sessionId = "session-" + Date.now(); // generate unique
+window.__CHAT_CANCELED__ = false;
+
 
 function markdownToHtml(md) {
   if (!md) return "";
@@ -39,11 +41,6 @@ function disableUI() {
 
 function enableUI() {
   console.log("🔓 UI Unlocked: Ready for new question");
-
-  // document
-  //   .querySelectorAll(".chatbot_topic-suggections-item")
-  //   .forEach((el) => el.classList.remove("is-disabled"));
-
   const input = document.querySelector(".chatbot_question-input");
   const btn = document.querySelector(".chatbot_question-submit");
   if (input) input.classList.remove("is-disabled");
@@ -52,6 +49,9 @@ function enableUI() {
 
 async function askLLM(question) {
   console.log("🔥 askLLM() CALLED with question =", question);
+
+  window.__CHAT_CANCELED__ = false; // RESET CANCEL FLAG
+  isAsking = true;
 
   // 1️⃣ Append question bubble
   appendQuestionBubble(question);
@@ -93,6 +93,14 @@ async function askLLM(question) {
     const textData = await res.text();
     let data = JSON.parse(textData);
 
+    if (window.__CHAT_CANCELED__) {
+      console.warn("⛔ Chat was cleared — aborting response");
+      loaderBubble.remove();
+      isAsking = false;
+      enableUI();
+      return;
+  }
+
     const answer = data.answer || "No response";
     const sources = data.sources || [];
 
@@ -119,6 +127,7 @@ async function askLLM(question) {
     // 3️⃣ Remove loader bubble
     loaderBubble.remove();
 
+    if (window.__CHAT_CANCELED__) return;
     // 4️⃣ Append real answer bubble
     appendAnswerBubble(htmlAnswer);
 
@@ -191,12 +200,14 @@ function initializeSubmitHandler() {
       renderHeader(window.__CATEGORIES__, null);
       setTimeout(() => adjustHeaderDropdown(), 50);
     }
+    // window.__CHAT_CANCELED__ = false;
+
     isAsking = true; // 🔐 lock clicks
     disableUI();
     askLLM(q);
 
     input.value = "";
-    $(".chatbot_input-character-count").text("0");
+    document.querySelector(".chatbot_input-character-count").textContent = "0";
     autosize();
     function autosize() {
       var text = $(".chatbot_question-input");
@@ -654,6 +665,10 @@ function clearChatHistory() {
 
 function clearEverything() {
   console.log("🧹 FULL RESET: Clearing chat + category + UI");
+
+window.__CHAT_CANCELED__ = true;
+isAsking = false;
+
 
   // -----------------------------
   // 1️⃣ Remove Chat Thread Content
