@@ -41,11 +41,12 @@ status = 200
 force = true
 
 [[headers]]
-  for = "/chatbot.html"
+  for = "/*.html"
   [headers.values]
     Access-Control-Allow-Origin = "*"
     Access-Control-Allow-Headers = "*"
     Access-Control-Allow-Methods = "GET, OPTIONS"
+
 
 [[headers]]
   for = "/*.js"
