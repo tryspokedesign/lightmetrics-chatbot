@@ -146,17 +146,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const input = document.querySelector(".chatbot_question-input");
   const btn = document.querySelector(".chatbot_question-submit");
+  const form = document.getElementById("wf-form-Ask-Question-Form");
 
   if (!input)
     console.error("❌ Input field not found (.chatbot_question-input)");
   if (!btn)
     console.error("❌ Submit button not found (.chatbot_question-submit)");
+  if (!form)
+    console.error("❌ Form not found (#wf-form-Ask-Question-Form)");
 
   const screen1 = document.querySelector(".chatbot_modal-screen1");
   const screen2 = document.querySelector(".chatbot_modal-screen2");
   const screen2head = document.querySelector(".chatbot_modal-screen-header");
 
-  btn.addEventListener("click", (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
 
     const q = input.value.trim();
@@ -208,7 +211,10 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     }
     adjustHeaderDropdown();
-  });
+  };
+
+  btn.addEventListener("click", handleSubmit);
+  form?.addEventListener("submit", handleSubmit);
 });
 
 function appendQuestionBubble(text) {
