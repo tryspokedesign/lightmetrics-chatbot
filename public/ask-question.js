@@ -143,8 +143,8 @@ async function askLLM(question) {
   }
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-  console.log("✅ DOM loaded, attaching submit handler…");
+function initializeSubmitHandler() {
+  console.log("✅ Initializing submit handler…");
 
   const input = document.querySelector(".chatbot_question-input");
   const btn = document.querySelector(".chatbot_question-submit");
@@ -226,7 +226,15 @@ document.addEventListener("DOMContentLoaded", () => {
     console.log("✅ Attaching submit handler to form");
     form.addEventListener("submit", handleSubmit);
   }
-});
+}
+
+// Run immediately if DOM is ready, otherwise wait
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", initializeSubmitHandler);
+} else {
+  // DOM is already ready, run immediately
+  initializeSubmitHandler();
+}
 
 function appendQuestionBubble(text) {
   const thread = document.querySelector(".chatbot_modal-screen2-inner");
