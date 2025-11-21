@@ -1,3 +1,5 @@
+console.log("🚀 ask-question.js loaded");
+
 const ANSWER_ENDPOINT =
   "https://lightmetrics-chatbot.netlify.app/api/get-answer";
 
