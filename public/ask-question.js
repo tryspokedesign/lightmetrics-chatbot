@@ -160,12 +160,15 @@ document.addEventListener("DOMContentLoaded", () => {
   const screen2head = document.querySelector(".chatbot_modal-screen-header");
 
   const handleSubmit = (e) => {
+    console.log("🔥 handleSubmit called, event:", e.type);
     e.preventDefault();
 
     const q = input.value.trim();
+    console.log("📝 Question text:", q);
 
     // 🔴 Show error when empty
     if (!q) {
+      console.log("❌ Empty question, showing error");
       input.classList.add("error-input");
       input.placeholder = "Please type your question here...";
       return;
@@ -213,8 +216,14 @@ document.addEventListener("DOMContentLoaded", () => {
     adjustHeaderDropdown();
   };
 
-  btn.addEventListener("click", handleSubmit);
-  form?.addEventListener("submit", handleSubmit);
+  if (btn) {
+    console.log("✅ Attaching click handler to button");
+    btn.addEventListener("click", handleSubmit);
+  }
+  if (form) {
+    console.log("✅ Attaching submit handler to form");
+    form.addEventListener("submit", handleSubmit);
+  }
 });
 
 function appendQuestionBubble(text) {
