@@ -283,25 +283,33 @@ if (SubmitBtn) {
 
 // --------------- remove active category & hide suggestions ---------------
 document.addEventListener("click", function (e) {
-  // check if the click happened on the close icon (or inside it)
   const closeIcon = e.target.closest(".chatbot_modal-topic-close");
   if (!closeIcon) return;
 
-  // // get the chip item that contains the close icon
-  // const chipItem = closeIcon.closest(".chatbot_modal-topic-item");
-  // if (!chipItem) return;
+  // 1️⃣ Ensure close icon belongs to a CATEGORY chip, not question pill
+  const chipItem = closeIcon.closest(".chatbot_modal-topic-item");
+  if (!chipItem) return; // Not a category → stop
 
-  // // remove active class
-  // chipItem.classList.remove("is-active");
-  $(".chatbot_modal-topic-header-list")
-    .find(".chatbot_modal-topic-item")
-    .removeClass("is-active");
+  const closedKey = chipItem.dataset.categoryKey;
 
-  // hide suggestions wrapper
+  // 2️⃣ Remove active class
+  document
+    .querySelectorAll(".chatbot_modal-topic-header-list .chatbot_modal-topic-item")
+    .forEach((el) => el.classList.remove("is-active"));
+
+  // 3️⃣ Hide suggestions
   const wrapper = document.querySelector(".chatbot_topic-category");
   if (wrapper) wrapper.style.display = "none";
 
-  // reset label
-  const label = document.querySelector(".chatbot_modal-form-label-copy");
-  if (label) label.textContent = "Select a category to see questions.";
+  // 4️⃣ Reset label ONLY if closed category is the active one
+  if (closedKey === activeKey) {
+    activeKey = null;
+
+    if (lookingLabelEl) {
+      lookingLabelEl.textContent = "Select a category to see questions.";
+    }
+
+    if (selectedTopicInlineEl) selectedTopicInlineEl.textContent = "";
+    if (selectedHeadingEl) selectedHeadingEl.textContent = "";
+  }
 });
