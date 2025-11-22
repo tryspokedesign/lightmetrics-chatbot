@@ -8036,7 +8036,7 @@ strong{
     width:100%;
     margin-left:auto;
     margin-right:auto;
-    padding:.75rem 0px !important;
+    padding:.75rem 0px;
     display:flex;
     overflow:auto
 }
@@ -8400,8 +8400,7 @@ strong{
     height:100%;
     margin-left:auto;
     margin-right:auto;
-    padding-top:2rem;
-    padding-bottom:2rem;
+    padding: 2rem 0.75rem;
     display:flex
 }
 .chatbot_topic-question-wrapper{
