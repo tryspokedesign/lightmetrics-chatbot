@@ -180,6 +180,20 @@ document.addEventListener("click", async (e) => {
 
   // After submit → disable the button again
   btn.classList.add("is-disabled");
+
+  // 🔒 Disable LIKE + DISLIKE after submitting feedback
+  const likeBtn = answerBlock.querySelector(".chatbot_modal-action-like");
+  const dislikeBtn = answerBlock.querySelector(".chatbot_modal-action-dislike");
+
+  if (likeBtn) {
+    likeBtn.style.pointerEvents = "none";
+    likeBtn.style.opacity = "0.4";
+  }
+
+  if (dislikeBtn) {
+    dislikeBtn.style.pointerEvents = "none";
+    dislikeBtn.style.opacity = "0.4";
+  }
 });
 
 // -----------------------------------------------------------

@@ -5,7 +5,6 @@
   transition: opacity 0.3s ease;
 }
 
-
 /* Response rich content css */
 .chatbot_topic-answer-richtext p:last-of-type,
 .chatbot_sources-inline {
@@ -123,7 +122,13 @@
   }
 }
 
-
+/* Chat Answer CSS */
+.chatbot_modal-screen2-inner .chatbot_topic-answer-wrapper .chatbot_topic-aditional-question {
+  display: none;
+}
+.chatbot_modal-screen2-inner .chatbot_topic-answer-wrapper:last-child .chatbot_topic-aditional-question {
+  display: block;
+}
 
 @media screen and (max-width: 991px) { 
     .chatbot_modal-actions-wrapper {
