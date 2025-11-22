@@ -667,6 +667,7 @@ function clearEverything() {
   console.log("🧹 FULL RESET: Clearing chat + category + UI");
 
 window.__CHAT_CANCELED__ = true;
+enableUI();
 isAsking = false;
 
 
