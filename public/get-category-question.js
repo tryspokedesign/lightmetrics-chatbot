@@ -190,7 +190,7 @@ async function fetchQuestions(categoryKey) {
 // ---------- MAIN SHOW FUNCTION ----------
 async function showCategory(categoryKey) {
   clearChatHistory();
-
+disableUI()
   allCategories = window.__CATEGORIES__ || {};
   activeKey = categoryKey;
   const label = allCategories[categoryKey] || categoryKey;
@@ -226,6 +226,7 @@ async function showCategory(categoryKey) {
     suggestionsWrapper.style.opacity = "1";
     suggestionsWrapper.style.display = "block";
     adjustHeaderDropdown();
+    enableUI()
   }
 }
 
