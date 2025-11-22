@@ -67,7 +67,47 @@ function renderHeader(categoriesMap, activeKey) {
   }
 }
 
-// ---------- ADJUST DROPDOWN RESPONSIVELY ----------
+// ---------- ADJUST DROPDOWN RESPONSIVELY AND KEEP SELECTED CATEGORY OUTSIDE THE DROPDOWN ----------
+// function adjustHeaderDropdown() {
+//   const container = headerList;
+//   const dropdown = container.querySelector(".chatbot_topic-dropdown");
+//   if (!dropdown) return;
+
+//   const dropdownList = dropdown.querySelector(".chatbot_topic-dropdown-list");
+//   const counter = dropdown.querySelector("#topics-counter");
+//   dropdownList.innerHTML = ""; // ✅ clear existing hidden chips
+
+//   const chips = Array.from(
+//     container.querySelectorAll(".chatbot_modal-topic-item")
+//   );
+//   const availableWidth = container.clientWidth - 130;
+//   let usedWidth = 0;
+//   let hidden = [];
+
+//   chips.forEach((chip) => {
+//     chip.style.display = "inline-flex";
+//     const chipWidth = chip.offsetWidth + 12;
+//     if (usedWidth + chipWidth > availableWidth) {
+//       chip.style.display = "none";
+//       hidden.push(chip);
+//     } else {
+//       usedWidth += chipWidth;
+//     }
+//   });
+
+//   if (hidden.length > 0) {
+//     dropdown.style.display = "inline-block";
+//     counter.textContent = hidden.length;
+
+//     hidden.forEach((chip) => {
+//       const clone = chip.cloneNode(true);
+//       clone.style.display = "flex";
+//       dropdownList.appendChild(clone);
+//     });
+//   } else {
+//     dropdown.style.display = "none";
+//   }
+// }
 function adjustHeaderDropdown() {
   const container = headerList;
   const dropdown = container.querySelector(".chatbot_topic-dropdown");
@@ -75,31 +115,61 @@ function adjustHeaderDropdown() {
 
   const dropdownList = dropdown.querySelector(".chatbot_topic-dropdown-list");
   const counter = dropdown.querySelector("#topics-counter");
-  dropdownList.innerHTML = ""; // ✅ clear existing hidden chips
+  dropdownList.innerHTML = "";
 
   const chips = Array.from(
     container.querySelectorAll(".chatbot_modal-topic-item")
   );
+
+  const activeChip = chips.find(
+    chip => chip.dataset.categoryKey === activeKey
+  );
+
   const availableWidth = container.clientWidth - 130;
   let usedWidth = 0;
   let hidden = [];
 
-  chips.forEach((chip) => {
+  // ---------------------------------------------------
+  // STEP 1: Reset all chips
+  // ---------------------------------------------------
+  chips.forEach(chip => {
     chip.style.display = "inline-flex";
+  });
+
+  // ---------------------------------------------------
+  // STEP 2: ALWAYS place active chip first
+  // ---------------------------------------------------
+  if (activeChip) {
+    const width = activeChip.offsetWidth + 12;
+    activeChip.style.display = "inline-flex";
+    usedWidth = width; // reserve first space
+  }
+
+  // ---------------------------------------------------
+  // STEP 3: Loop through other chips
+  // ---------------------------------------------------
+  chips.forEach(chip => {
+    if (chip === activeChip) return; // already placed
+
     const chipWidth = chip.offsetWidth + 12;
+
     if (usedWidth + chipWidth > availableWidth) {
       chip.style.display = "none";
       hidden.push(chip);
     } else {
+      chip.style.display = "inline-flex";
       usedWidth += chipWidth;
     }
   });
 
+  // ---------------------------------------------------
+  // STEP 4: Show dropdown if needed
+  // ---------------------------------------------------
   if (hidden.length > 0) {
     dropdown.style.display = "inline-block";
     counter.textContent = hidden.length;
 
-    hidden.forEach((chip) => {
+    hidden.forEach(chip => {
       const clone = chip.cloneNode(true);
       clone.style.display = "flex";
       dropdownList.appendChild(clone);
@@ -108,6 +178,9 @@ function adjustHeaderDropdown() {
     dropdown.style.display = "none";
   }
 }
+
+
+
 
 // ---------- RENDER QUESTIONS ----------
 // function renderQuestions(questions) {
