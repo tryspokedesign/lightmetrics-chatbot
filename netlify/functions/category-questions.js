@@ -4,7 +4,6 @@ const BASE =
 
 const ALLOWED_ORIGINS = [
   "https://lightmetrics-chatbot.netlify.app",
-  "https://lightmetrics-chatbot.webflow.io",
 ];
 
 function getToken(event) {

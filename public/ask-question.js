@@ -691,6 +691,12 @@ isAsking = false;
   // Remove active category globally
   window.activeKey = null;
 
+  // Reset category label to default
+  const lookingLabelEl = document.querySelector(".chatbot_modal-form-label-copy");
+  if (lookingLabelEl) {
+    lookingLabelEl.textContent = "Select a category to see questions.";
+  }
+
   // -----------------------------
   // 3️⃣ Hide Suggestions List
   // -----------------------------

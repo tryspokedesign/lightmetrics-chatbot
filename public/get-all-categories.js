@@ -31,6 +31,8 @@ const LIST_ID = "all-category";
 
       // NEW: expose categories globally so the questions file can use them
       window.__CATEGORIES__ = data; // NEW
+      window.__CATEGORIES_READY__ = true; 
+      console.log("✅ Categories ready:", window.__CATEGORIES__);
 
       Object.entries(data).forEach(([key, value]) => {
         const item = document.createElement("div");

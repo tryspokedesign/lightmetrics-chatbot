@@ -7,7 +7,7 @@ const screen1 = document.querySelector(".chatbot_modal-screen1");
 const screen2 = document.querySelector(".chatbot_modal-screen2");
 const screen2head = document.querySelector(".chatbot_modal-screen-header");
 const headerList = document.querySelector(".chatbot_modal-topic-header-list");
-const lookingLabelEl = screen2.querySelector(".chatbot_modal-form-label-copy");
+const lookingLabelEl = screen2head.querySelector(".chatbot_modal-form-label-copy");
 const selectedHeadingEl = screen2.querySelector(".chatbot_topic-heading-text");
 const selectedTopicInlineEl = screen2.querySelector(".chatbot_selected-topic");
 const suggestionsWrapper = screen2.querySelector(".chatbot_topic-category");
@@ -20,6 +20,11 @@ let allCategories = {};
 let activeKey = null;
 let resizeBound = false; // ✅ prevent multiple resize events
 let isAsking = false;
+
+// Set default label text on page load
+if (lookingLabelEl) {
+  lookingLabelEl.textContent = "Select a category to see questions.";
+}
 
 // ---------- BUILD HEADER + DROPDOWN ----------
 function renderHeader(categoriesMap, activeKey) {
@@ -286,30 +291,29 @@ document.addEventListener("click", function (e) {
   const closeIcon = e.target.closest(".chatbot_modal-topic-close");
   if (!closeIcon) return;
 
-  // 1️⃣ Ensure close icon belongs to a CATEGORY chip, not question pill
+  // detect if user closed an ACTIVE category chip
   const chipItem = closeIcon.closest(".chatbot_modal-topic-item");
-  if (!chipItem) return; // Not a category → stop
+  const closedKey = chipItem?.dataset?.categoryKey;
 
-  const closedKey = chipItem.dataset.categoryKey;
+  // remove active style
+  $(".chatbot_modal-topic-header-list")
+    .find(".chatbot_modal-topic-item")
+    .removeClass("is-active");
 
-  // 2️⃣ Remove active class
-  document
-    .querySelectorAll(".chatbot_modal-topic-header-list .chatbot_modal-topic-item")
-    .forEach((el) => el.classList.remove("is-active"));
-
-  // 3️⃣ Hide suggestions
+  // hide suggestions 
   const wrapper = document.querySelector(".chatbot_topic-category");
   if (wrapper) wrapper.style.display = "none";
 
-  // 4️⃣ Reset label ONLY if closed category is the active one
+  // ONLY reset label if user actually closed the active category
   if (closedKey === activeKey) {
     activeKey = null;
 
-    if (lookingLabelEl) {
-      lookingLabelEl.textContent = "Select a category to see questions.";
+    const label = document.querySelector(".chatbot_modal-form-label-copy");
+    if (label) {
+      label.textContent = "Select a category to see questions.";
     }
-
-    if (selectedTopicInlineEl) selectedTopicInlineEl.textContent = "";
-    if (selectedHeadingEl) selectedHeadingEl.textContent = "";
   }
+
+  // also hide selected category inline text
+  if (selectedTopicInlineEl) selectedTopicInlineEl.textContent = "";
 });
