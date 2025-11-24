@@ -1,4 +1,4 @@
-const ENDPOINT = "https://lightmetrics-chatbot.netlify.app/api/all-categories";
+const ENDPOINT = "https://reseller-api-dev.lightmetrics.co/v1/llm-kb/all-categories";
 const LIST_ID = "all-category";
 
 (async function () {

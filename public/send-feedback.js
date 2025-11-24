@@ -5,7 +5,7 @@
 
 // Netlify endpoint
 const FEEDBACK_ENDPOINT =
-  "https://lightmetrics-chatbot.netlify.app/api/save-feedback";
+  "https://reseller-api-dev.lightmetrics.co/v1/llm-kb/save-feedback";
 
 // -------------------------------------------------------
 // Show success message INSIDE the specific answer block

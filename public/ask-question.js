@@ -1,7 +1,7 @@
 console.log("🚀 ask-question.js loaded");
 
 const ANSWER_ENDPOINT =
-  "https://lightmetrics-chatbot.netlify.app/api/get-answer";
+  "https://reseller-api-dev.lightmetrics.co/v1/llm-kb/get-answer";
 
 // ----------------------------------
 // GLOBAL VARIABLES FOR FEEDBACK

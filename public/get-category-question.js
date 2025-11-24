@@ -1,7 +1,7 @@
 // Endpoints
 
 const QUESTIONS_ENDPOINT =
-  "https://lightmetrics-chatbot.netlify.app/api/category-questions";
+  "https://reseller-api-dev.lightmetrics.co/v1/llm-kb/category-questions";
 
 const screen1 = document.querySelector(".chatbot_modal-screen1");
 const screen2 = document.querySelector(".chatbot_modal-screen2");
