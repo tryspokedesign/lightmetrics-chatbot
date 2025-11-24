@@ -20,6 +20,7 @@ let allCategories = {};
 let activeKey = null;
 let resizeBound = false; // ✅ prevent multiple resize events
 let isAsking = false;
+let disableSuggestions = false;
 
 // Set default label text on page load
 if (lookingLabelEl) {
@@ -262,8 +263,9 @@ async function fetchQuestions(categoryKey) {
 
 // ---------- MAIN SHOW FUNCTION ----------
 async function showCategory(categoryKey) {
+  disableSuggestions = false; 
   clearChatHistory();
-disableUI()
+  disableUI()
   allCategories = window.__CATEGORIES__ || {};
   activeKey = categoryKey;
   const label = allCategories[categoryKey] || categoryKey;
@@ -296,8 +298,10 @@ disableUI()
     suggestionsList.innerHTML = `<div style="color:#c00;">Failed to load questions: ${e.message}</div>`;
   } finally {
     loadingState.style.display = "none";
-    suggestionsWrapper.style.opacity = "1";
-    suggestionsWrapper.style.display = "block";
+    if (!disableSuggestions) {
+      suggestionsWrapper.style.opacity = "1";
+      suggestionsWrapper.style.display = "block";
+    }
     adjustHeaderDropdown();
     enableUI()
   }
@@ -320,8 +324,8 @@ headerList.addEventListener("click", (e) => {
   if (dropdownNav) dropdownNav.style.display = "none";
 
   // If suggestions were hidden → show container again
-  const wrapper = document.querySelector(".chatbot_topic-suggestions-wrapper");
-  if (wrapper) wrapper.style.display = "block";
+  // const wrapper = document.querySelector(".chatbot_topic-suggestions-wrapper");
+  // if (wrapper) wrapper.style.display = "block";
 
   showCategory(key);
 });
@@ -368,6 +372,12 @@ document.addEventListener("click", function (e) {
   // detect if user closed an ACTIVE category chip
   const chipItem = closeIcon.closest(".chatbot_modal-topic-item");
   const closedKey = chipItem?.dataset?.categoryKey;
+
+  // User is closing the ACTIVE category → mark suggestions disabled
+  if (closedKey === activeKey) {
+    disableSuggestions = true;
+    activeKey = null;
+  }
 
   // remove active style
   $(".chatbot_modal-topic-header-list")

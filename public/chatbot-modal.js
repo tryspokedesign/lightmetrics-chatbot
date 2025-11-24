@@ -5,11 +5,17 @@ $(document).ready(function () {
     $(".chatbot_modal-wrapper").fadeTo(400, 0, function () {
       $(this).css("display", "none");
     });
+
+    // Enable body scroll
+    $("body").css("overflow", "");
   });
 
   // Open chatbot
   $(".chatbot_button").on("click", function () {
     $(".chatbot_modal-wrapper").css("display", "block").hide().fadeTo(400, 1);
+    
+    // Disable body scroll
+    $("body").css("overflow", "hidden");
   });
 
   // Expand or shrink chatbot

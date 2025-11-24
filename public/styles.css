@@ -8150,6 +8150,7 @@ strong{
     border:1px solid #dedede;
     border-radius:1.75rem;
     min-height:3.5rem;
+    max-height: 6.5rem;
     margin-bottom:0;
     padding:1.125rem 7.5rem 1.125rem .75rem;
     font-weight:300;
@@ -8157,7 +8158,7 @@ strong{
     transition-property:box-shadow,border-color;
     transition-duration:.3s,.3s;
     transition-timing-function:ease,ease;
-    overflow:hidden
+    overflow:auto;
 }
 .chatbot_question-input:focus{
     border-color:#2998a2;
@@ -8563,7 +8564,11 @@ strong{
     font-size:.875rem;
     line-height:1.75rem;
     display:inline-flex;
-    position:relative
+    position:relative;
+    transition: border-color .3s;
+}
+.chatbot_action-form-checkbox:hover{ 
+    border-color: #6b6b6b;
 }
 .chatbot_action-form-checboxs{
     grid-column-gap:.75rem;

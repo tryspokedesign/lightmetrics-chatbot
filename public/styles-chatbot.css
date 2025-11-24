@@ -62,6 +62,16 @@
   padding-top: 2rem;
 }
 
+.expand-box .chatbot_question-input {
+  padding-left: 1.5rem;
+}
+.expand-box .chatbot-action-form-response  {
+  bottom: 16%;
+  max-width: 816px;
+  margin: 0 auto;
+  width: 100%;
+}
+  
 /* Chatbot Form CSS */
 .chatbot_action-form-checkbox:has(.w--redirected-checked) {
   border-color: #eedfed;
@@ -128,6 +138,13 @@
 }
 .chatbot_modal-screen2-inner .chatbot_topic-answer-wrapper:last-child .chatbot_topic-aditional-question {
   display: block;
+}
+
+.chatbot_source-number {
+  transition: opacity 300ms;
+}
+.chatbot_source-number:hover {
+  opacity: 0.5;
 }
 
 @media screen and (max-width: 991px) { 
