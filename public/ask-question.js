@@ -48,109 +48,190 @@ function enableUI() {
 }
 
 async function askLLM(question) {
-  console.log("🔥 askLLM() CALLED with question =", question);
+  console.log("🔥 askLLM() STREAMING MODE with question =", question);
 
-  window.__CHAT_CANCELED__ = false; // RESET CANCEL FLAG
+  // Abort any previous stream
+  if (window.__LLM_CONTROLLER__) {
+    window.__LLM_CONTROLLER__.abort();
+  }
+  
+  // Create new AbortController for this request
+  window.__LLM_CONTROLLER__ = new AbortController();
+  const controller = window.__LLM_CONTROLLER__;
+
+  window.__CHAT_CANCELED__ = false;
   isAsking = true;
 
   // 1️⃣ Append question bubble
   appendQuestionBubble(question);
 
-  // 2️⃣ Show ONE loader bubble (temporary message)
+  // 2️⃣ Add loader bubble (already used in your UI)
   const thread = document.querySelector(".chatbot_modal-screen2-inner");
   const loaderBubble = document.createElement("div");
   loaderBubble.className = "chatbot_loading-state chat-loader";
   loaderBubble.innerHTML = `
-        <div class="chatbot_icon">
-        <div class="chatbot_embed-icon w-embed">
+      <div class="chatbot_icon">
+      <div class="chatbot_embed-icon w-embed">
             <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
             <rect width="28" height="28" rx="14" fill="#156168"></rect>
             <path d="M19.5535 11.8182L20.5452 9.81818L22.727 8.90909L20.5452 8L19.5535 6L18.5617 8L16.3799 8.90909L18.5617 9.81818L19.5535 11.8182ZM13.603 12.1818L11.6196 8.18182L9.6361 12.1818L5.27246 14L9.6361 15.8182L11.6196 19.8182L13.603 15.8182L17.9667 14L13.603 12.1818ZM19.5535 16.1818L18.5617 18.1818L16.3799 19.0909L18.5617 20L19.5535 22L20.5452 20L22.727 19.0909L20.5452 18.1818L19.5535 16.1818Z" fill="white"></path>
             </svg>
-        </div>
-        </div>
-        <div class="chatbot_loading-dots">
+      </div>
+      </div>
+      <div class="chatbot_loading-dots">
         <div class="chatbot_loading-dot"></div>
         <div class="chatbot_loading-dot"></div>
         <div class="chatbot_loading-dot"></div>
-        </div>
-    `;
+      </div>
+  `;
   thread.appendChild(loaderBubble);
 
   try {
     const memberstack = window.$memberstackDom;
     const token = await memberstack.getMemberCookie();
 
-    const res = await fetch(ANSWER_ENDPOINT, {
+    //---------------------------
+    // 3️⃣ START STREAM REQUEST
+    //---------------------------
+    const res = await fetch(ANSWER_ENDPOINT + "?stream=true", {
       method: "POST",
-      headers: { 
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}`
-       },
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
+      },
       body: JSON.stringify({ question }),
+      signal: controller.signal 
     });
 
-    const textData = await res.text();
-    let data = JSON.parse(textData);
+    if (!res.ok) throw new Error("Bad streaming response");
 
-    if (window.__CHAT_CANCELED__) {
-      console.warn("⛔ Chat was cleared — aborting response");
-      loaderBubble.remove();
-      isAsking = false;
-      enableUI();
-      return;
-  }
+    const reader = res.body.getReader();
+    const decoder = new TextDecoder("utf-8");
 
-    const answer = data.answer || "No response";
-    const sources = data.sources || [];
+    let fullAnswer = "";
+    let sources = [];
+    let answerHtmlLive = "";  // live streamed html for incremental display
 
-    // 🟣 Store for feedback API
-    window.__lastQuestion = question;
-    window.__lastAnswer = answer;
+    
+    loaderBubble.remove(); // remove loader
 
-    // Build numbered references: [1] [2] [3]
+    // Temporary bubble for streamed text
+    let streamedBubble = document.createElement("div");
+    streamedBubble.className = "chatbot_topic-answer-wrapper dynamic-answer";
+    streamedBubble.innerHTML = `
+      <div class="chatbot_topic-answer-inner">
+        <div class="chatbot_topic-suggestions-inner">
+          <div class="chatbot_icon">
+            <div class="chatbot_embed-icon w-embed">
+              <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect width="28" height="28" rx="14" fill="#156168"></rect>
+              <path d="M19.5535 11.8182L20.5452 9.81818L22.727 8.90909L20.5452 8L19.5535 6L18.5617 8L16.3799 8.90909L18.5617 9.81818L19.5535 11.8182ZM13.603 12.1818L11.6196 8.18182L9.6361 12.1818L5.27246 14L9.6361 15.8182L11.6196 19.8182L13.603 15.8182L17.9667 14L13.603 12.1818ZM19.5535 16.1818L18.5617 18.1818L16.3799 19.0909L18.5617 20L19.5535 22L20.5452 20L22.727 19.0909L20.5452 18.1818L19.5535 16.1818Z" fill="white"></path>
+              </svg>
+            </div>
+          </div>
+          <div class="chatbot_topic-answer-content">
+            <div class="chatbot_topic-answer-richtext"></div>
+          </div>
+        </div>
+      </div>
+    `;
+    thread.appendChild(streamedBubble);
+
+    const liveRich = streamedBubble.querySelector(".chatbot_topic-answer-richtext");
+
+    //-------------------------------------
+    // 4️⃣ READ THE STREAM CHUNKS
+    //-------------------------------------
+    while (true) {
+
+      if (window.__CHAT_CANCELED__) {
+        console.warn("⛔ STREAM STOPPED BY USER");
+        controller.abort();      // stop backend stream
+        return;                  // exit askLLM
+      }
+
+      const { value, done } = await reader.read();
+      if (done) break;
+
+      let chunk = decoder.decode(value, { stream: true });
+
+      // SSE Format → split by "data:"
+      const lines = chunk.split("\n");
+      for (let ln of lines) {
+        if (!ln.startsWith("data:")) continue;
+
+        const json = ln.replace("data:", "").trim();
+        if (!json) continue;
+
+        let obj;
+        try {
+          obj = JSON.parse(json);
+        } catch {
+          continue;
+        }
+
+        // ✔ 4a — text token received
+        if (obj.text) {
+          fullAnswer += obj.text;
+          answerHtmlLive = markdownToHtml(fullAnswer);
+
+          // Live update inside the streamed bubble
+          liveRich.innerHTML = answerHtmlLive;
+
+          // auto-scroll
+          thread.scrollTop = thread.scrollHeight;
+        }
+
+        // ✔ 4b — final sources event
+        if (obj.sources) {
+          sources = obj.sources;
+        }
+      }
+    }
+
+    //-------------------------------------
+    // 5️⃣ STREAM COMPLETED
+    //-------------------------------------
+    // loaderBubble.remove(); // remove loader
+
+    streamedBubble.remove(); // remove temp bubble
+
+    if (window.__CHAT_CANCELED__) return;
+
+    // Build citations
     const sourceMarkers = sources
       .map(
         (s, i) =>
-          `<a class="chatbot_source-number" href="${
-            s.fd_article
-          }" target="_blank">[${i + 1}]</a>`
+          `<a class="chatbot_source-number" href="${s.fd_article}" target="_blank">[${i + 1}]</a>`
       )
       .join(" ");
 
-    // Final formatted answer with citation numbers inline
-    const htmlAnswer = `
-  ${markdownToHtml(answer)}
-  <div class="chatbot_sources-inline">${sourceMarkers}</div>
-`;
+    const finalHTML = `
+      ${markdownToHtml(fullAnswer)}
+      <div class="chatbot_sources-inline">${sourceMarkers}</div>
+    `;
 
-    // 3️⃣ Remove loader bubble
-    loaderBubble.remove();
+    appendAnswerBubble(finalHTML);
 
-    if (window.__CHAT_CANCELED__) return;
-    // 4️⃣ Append real answer bubble
-    appendAnswerBubble(htmlAnswer);
+    window.__lastQuestion = question;
+    window.__lastAnswer = fullAnswer;
 
-    // 🟢 Unlock clicks
     isAsking = false;
     enableUI();
 
-    // 5️⃣ Auto scroll to bottom
     setTimeout(() => {
       thread.scrollTop = thread.scrollHeight;
-    }, 100);
+    }, 50);
+
   } catch (err) {
-    console.error("❌ Error:", err);
-
-    loaderBubble.remove(); // remove loader
-
-    appendAnswerBubble(`<p style="color:red;">${err.message}</p>`);
-
-    // 🟢 Unlock clicks
+    loaderBubble.remove();
+    // console.error("❌ STREAM ERROR:", err);
+    // appendAnswerBubble(`<p style="color:red;">${err.message}</p>`);
     isAsking = false;
     enableUI();
   }
 }
+
 
 function initializeSubmitHandler() {
   console.log("✅ Initializing submit handler…");
@@ -666,6 +747,10 @@ function clearChatHistory() {
 function clearEverything() {
   console.log("🧹 FULL RESET: Clearing chat + category + UI");
 
+  if (window.__LLM_CONTROLLER__) {
+    console.log("🛑 Aborting LLM stream...");
+    window.__LLM_CONTROLLER__.abort();
+  }
 window.__CHAT_CANCELED__ = true;
 enableUI();
 isAsking = false;

@@ -8159,6 +8159,7 @@ strong{
     transition-duration:.3s,.3s;
     transition-timing-function:ease,ease;
     overflow:auto;
+    line-height: 1.3;
 }
 .chatbot_question-input:focus{
     border-color:#2998a2;
