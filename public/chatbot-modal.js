@@ -1,4 +1,3 @@
-console.log("test");
 $(document).ready(function () {
   // Close chatbot
   $(".chatbot_header-close-icon").on("click", function () {
@@ -66,17 +65,10 @@ $(document).ready(function () {
       $(".chatbot_question-submit").click();
     }
   });
-  // Close chatbot feedback form
-  // $(".chatbot_action-form-close").on("click", function () {
-  //   $(".chatbot-action-form-wrapper").fadeTo(400, 0, function () {
-  //     $(this).css("display", "none");
-  //   });
-  // });
 
   // Show and Hide the Action buttons when hover in and out of content
-
+  
   // ---------------- HOVER ACTIONS (Per Block) ----------------
-  // if($(window).width() <= 991){
     $(document).on("mouseenter", ".chatbot_topic-answer-content", function () {
       const block = $(this);
       const actionWrapper = block.find(".chatbot_modal-actions-wrapper");
@@ -92,7 +84,6 @@ $(document).ready(function () {
         $(this).css("display", "none");
       });
     });
-  // }
 
   // // ---------------- DISLIKE BUTTON (Per Block) ----------------
   $(document).on("click", ".chatbot_modal-action-dislike", function () {
@@ -125,7 +116,7 @@ $(document).ready(function () {
     }
   });
 
-  // ---------------- CLOSE FORM (Per Block) ----------------
+  // ---------------- CLOSE FORM ----------------
   $(document).on("click", ".chatbot_action-form-close", function () {
     const closeBtn = $(this);
 
@@ -143,34 +134,3 @@ $(document).ready(function () {
     dislikeButton.find(".default-dislike-icon").show();
   });
 });
-
-// const upstreamResponse = await fetch(
-//   "https://reseller-api-dev.lightmetrics.co/v1/llm-kb/health-check",
-//   {
-//     method: "GET",
-//     headers: {
-//       Authorization: `Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IjZmNjU3ZGRiYWJmYmZkOTVhNGVkNjZjMjMyNDExZWFhNjE5OGQ4NGMxYmJkOGEyYTI5M2I4MTVmYjRhOTlhYjEifQ.eyJpZCI6Im1lbV9zYl9jbWV3aHJvcTcwMDE0MHd2YWhrcW00d2J6IiwidHlwZSI6Im1lbWJlciIsImlhdCI6MTc2MjkzODAwNiwiZXhwIjoxNzk0MDQyMDA2LCJhdWQiOiJhcHBfY2x6Mmt4dHB5MDA3ejB0cnA2aGNoM3g0eCIsImlzcyI6Imh0dHBzOi8vYXBpLm1lbWJlcnN0YWNrLmNvbSJ9.J1O4dBGRZyoJfCO1vxAqVTKlRWbUjtVQwcmzlpoOALifXDycfvZzsZlcyizJ8WHXNLA0GGyUvgv1hHXRxNGjZnE-g-4hr7yg1LLgMMPoXbJhzA9klwXQGNPB8aOwVoUXYUH_QPPLRMGTRnCWr9LUX7n5qFJsxkp-62_62eXA6QtwaoNVHOEU3MnD1D-NEqFEiSGknOt4AKWFrzTEg-wrbOtk4_DOut9Q9KAIjZ9gTN81SOJr8RaSgu29yQNdVBQnFWLbkKKpPTMhYcDqUjtUK5xgZpQ5ELqI9dCduqztWB9o7_w94lBeljvp8HyKWBYhUqR_gd6dHR4ntjD8gDUiaA`,
-//       //  "AWSALBAuthNonce=okt2e445GMpRJB8d; AWSELBAuthSessionCookie-0=UhGFE/nA2P2AjXgn+5YyVo2dkOUvLR1oAX0FWqVG8jwVYvvrH3fdjWgHCi2bXEmqPUodyerVp1iQiA0KZJgmny0zI2c5mg7F/WPDQBlUO7T5EJFOKSHNGcrXgszuNVUONR1JeplhavVg+1IQ9dpbV8eJdei0zfpweX0urbDSx88SJQSecS6aFx9NEhEYmCruYZRjti0zSwDrqr4cJfQP8pycEm474d6dtRGJK2YpovE7empf+L2SnBMZdnYTO3qD5PIK/N+d4zhLieADPb/j7s5lN9763QbiZBuyss3JzI7psOHRu1yJBnfZlyXvCj8zV19xtMbmG9yviHkD0pOxk1f9mB+fanLfjivLXMWc0mTmGg0vR/CkqFoJabql02GGhS/8D/uw7b+EGmT/OEESJu1O8Fw3soPKtCY4MDRMbnzEFIx44TdhLuQXFdEhtPg7qHHgCH/Un3VZjSy+DzaVqiv5N3ejnPynU7vvcEO7t43tdjCmEoNIO8mz2r15kO9nbWj8GZJAyEzWI+aSrtML6S1jjfc6NqiC88GBUDeYOPFL2baL/BHLtQ==",
-//     },
-//   }
-// );
-
-// console.log("New Api Called");
-
-// (async function () {
-//   try {
-//     const upstreamResponse = await fetch(
-//       "https://reseller-api-dev.lightmetrics.co/v1/llm-kb/all-categories",
-//       {
-//         method: "GET",
-//         headers: {
-//           Authorization: `Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IjZmNjU3ZGRiYWJmYmZkOTVhNGVkNjZjMjMyNDExZWFhNjE5OGQ4NGMxYmJkOGEyYTI5M2I4MTVmYjRhOTlhYjEifQ.eyJpZCI6Im1lbV9zYl9jbWV3aHJvcTcwMDE0MHd2YWhrcW00d2J6IiwidHlwZSI6Im1lbWJlciIsImlhdCI6MTc2MjkzODAwNiwiZXhwIjoxNzk0MDQyMDA2LCJhdWQiOiJhcHBfY2x6Mmt4dHB5MDA3ejB0cnA2aGNoM3g0eCIsImlzcyI6Imh0dHBzOi8vYXBpLm1lbWJlcnN0YWNrLmNvbSJ9.J1O4dBGRZyoJfCO1vxAqVTKlRWbUjtVQwcmzlpoOALifXDycfvZzsZlcyizJ8WHXNLA0GGyUvgv1hHXRxNGjZnE-g-4hr7yg1LLgMMPoXbJhzA9klwXQGNPB8aOwVoUXYUH_QPPLRMGTRnCWr9LUX7n5qFJsxkp-62_62eXA6QtwaoNVHOEU3MnD1D-NEqFEiSGknOt4AKWFrzTEg-wrbOtk4_DOut9Q9KAIjZ9gTN81SOJr8RaSgu29yQNdVBQnFWLbkKKpPTMhYcDqUjtUK5xgZpQ5ELqI9dCduqztWB9o7_w94lBeljvp8HyKWBYhUqR_gd6dHR4ntjD8gDUiaA`,
-//         },
-//       }
-//     );
-//     const data = await upstreamResponse.json();
-//     console.log("data", data);
-//   } catch (e) {
-//     console.error(e);
-//   }
-// })();

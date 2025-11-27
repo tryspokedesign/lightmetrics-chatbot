@@ -16,9 +16,7 @@ else if (hostname_feedback.includes("lightmetrics.co")) {
 else {
   console.log("Send Feedback Api is not set");
 }
-// // Netlify endpoint
-// const FEEDBACK_ENDPOINT =
-//   "https://reseller-api-dev.lightmetrics.co/v1/llm-kb/save-feedback";
+
 
 // -------------------------------------------------------
 // Show success message INSIDE the specific answer block
@@ -63,7 +61,6 @@ document.addEventListener("click", async (e) => {
   const btn = e.target.closest(".chatbot_modal-action-like");
   if (!btn) return;
 
-  console.log("👍 Sending LIKE feedback...");
 
   const answerBlock = btn.closest(".chatbot_topic-answer-wrapper");
 
@@ -98,7 +95,7 @@ document.addEventListener("click", async (e) => {
 });
 
 // ----------------------------------------------------------------------
-// ⭐ NEW: VALIDATE CHECKBOXES — enable/disable submit button PER BLOCK
+// ⭐ NEW: VALIDATE CHECKBOXES — enable/disable submit button in feedback form
 // ----------------------------------------------------------------------
 document.addEventListener("change", (e) => {
   if (!e.target.closest(".chatbot_action-form-checkbox")) return;
@@ -227,7 +224,6 @@ document.addEventListener("click", async (e) => {
   try {
     await navigator.clipboard.writeText(textToCopy);
   } catch (err) {
-    console.error("❌ Clipboard failed", err);
     return;
   }
 

@@ -1,4 +1,3 @@
-// Endpoints
 // --------------------------------------
 // AUTO-DETECT ENVIRONMENT (LIVE / STAGING)
 // --------------------------------------
@@ -84,46 +83,6 @@ function renderHeader(categoriesMap, activeKey) {
 }
 
 // ---------- ADJUST DROPDOWN RESPONSIVELY AND KEEP SELECTED CATEGORY OUTSIDE THE DROPDOWN ----------
-// function adjustHeaderDropdown() {
-//   const container = headerList;
-//   const dropdown = container.querySelector(".chatbot_topic-dropdown");
-//   if (!dropdown) return;
-
-//   const dropdownList = dropdown.querySelector(".chatbot_topic-dropdown-list");
-//   const counter = dropdown.querySelector("#topics-counter");
-//   dropdownList.innerHTML = ""; // ✅ clear existing hidden chips
-
-//   const chips = Array.from(
-//     container.querySelectorAll(".chatbot_modal-topic-item")
-//   );
-//   const availableWidth = container.clientWidth - 130;
-//   let usedWidth = 0;
-//   let hidden = [];
-
-//   chips.forEach((chip) => {
-//     chip.style.display = "inline-flex";
-//     const chipWidth = chip.offsetWidth + 12;
-//     if (usedWidth + chipWidth > availableWidth) {
-//       chip.style.display = "none";
-//       hidden.push(chip);
-//     } else {
-//       usedWidth += chipWidth;
-//     }
-//   });
-
-//   if (hidden.length > 0) {
-//     dropdown.style.display = "inline-block";
-//     counter.textContent = hidden.length;
-
-//     hidden.forEach((chip) => {
-//       const clone = chip.cloneNode(true);
-//       clone.style.display = "flex";
-//       dropdownList.appendChild(clone);
-//     });
-//   } else {
-//     dropdown.style.display = "none";
-//   }
-// }
 function adjustHeaderDropdown() {
   const container = headerList;
   const dropdown = container.querySelector(".chatbot_topic-dropdown");
@@ -196,27 +155,8 @@ function adjustHeaderDropdown() {
 }
 
 
-
-
 // ---------- RENDER QUESTIONS ----------
-// function renderQuestions(questions) {
-//   suggestionsList.innerHTML = "";
-//   const items = Array.isArray(questions) ? questions : [];
-//   items.forEach((q) => {
-//     const text = typeof q === "string" ? q : q?.question || "";
-//     if (!text) return;
-//     const pill = document.createElement("div");
-//     pill.className = "chatbot_topic-suggections-item";
-//     pill.innerHTML = `
-//       <div>${text}</div>
-//       <img src="https://cdn.prod.website-files.com/6560b4c29203fafcb9f6c716/69141f99bb1c116f61715ecc_close.svg"
-//            loading="lazy" alt="" class="chatbot_modal-topic-close">
-//     `;
-//     suggestionsList.appendChild(pill);
-//   });
-// }
 function renderQuestions(questions) {
-  console.log("🎯 Rendering questions:", questions);
 
   suggestionsList.innerHTML = "";
   const items = Array.isArray(questions) ? questions : [];
@@ -236,19 +176,14 @@ function renderQuestions(questions) {
     // NEW - when clicking question → ask LLM
     pill.addEventListener("click", () => {
       if (isAsking) {
-        console.log("⛔ Ignored click — already awaiting answer");
         return;
       }
 
-      console.log("🟢 User clicked suggested question:", text);
-
       // ⬆️ COUNT AS A MESSAGE
       window.__messageCount++;
-      console.log("🧮 Message Count:", window.__messageCount);
 
       // ⛔ If limit reached → show limit, block asking
       if (window.__messageCount > window.__MESSAGE_LIMIT) {
-        console.log("🚫 Limit reached from category question");
         showLimitReached();
         disableUI();
         return;
@@ -288,7 +223,9 @@ async function fetchQuestions(categoryKey) {
   return data;
 }
 
-// ---------- MAIN SHOW FUNCTION ----------
+// -------------------------------------------------------------
+// SHOW CATEGORY → Load questions
+// -------------------------------------------------------------
 async function showCategory(categoryKey) {
   disableSuggestions = false; 
   clearChatHistory();
@@ -296,7 +233,6 @@ async function showCategory(categoryKey) {
   allCategories = window.__CATEGORIES__ || {};
   activeKey = categoryKey;
 
-  // 👇 Add this
   window.activeKey = categoryKey;
   window.__activeKey = categoryKey;
 
@@ -354,10 +290,6 @@ headerList.addEventListener("click", (e) => {
     ".chatbot_topic-dropdown-navigation"
   );
   if (dropdownNav) dropdownNav.style.display = "none";
-
-  // If suggestions were hidden → show container again
-  // const wrapper = document.querySelector(".chatbot_topic-suggestions-wrapper");
-  // if (wrapper) wrapper.style.display = "block";
 
   showCategory(key);
 });
