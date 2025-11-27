@@ -864,6 +864,7 @@ function clearEverything() {
 
   // Remove active category globally
   window.activeKey = null;
+  window.__activeKey = null;
 
   // Reset category label to default
   const lookingLabelEl = document.querySelector(".chatbot_modal-form-label-copy");
