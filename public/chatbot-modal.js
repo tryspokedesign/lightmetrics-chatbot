@@ -7,7 +7,7 @@ $(document).ready(function () {
     });
 
     // Enable body scroll
-    $("body").css("overflow", "");
+    $(".body").css("overflow", "");
   });
 
   // Open chatbot
@@ -15,7 +15,7 @@ $(document).ready(function () {
     $(".chatbot_modal-wrapper").css("display", "block").hide().fadeTo(400, 1);
     
     // Disable body scroll
-    $("body").css("overflow", "hidden");
+    $(".body").css("overflow", "hidden");
   });
 
   // Expand or shrink chatbot
@@ -59,6 +59,13 @@ $(document).ready(function () {
     $(".chatbot_input-character-count").text(currentLength);
   });
 
+  // When the user presses enter in the input field, Ask the question
+  $("#Write-Input").on("keydown", function (e) {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      $(".chatbot_question-submit").click();
+    }
+  });
   // Close chatbot feedback form
   // $(".chatbot_action-form-close").on("click", function () {
   //   $(".chatbot-action-form-wrapper").fadeTo(400, 0, function () {
