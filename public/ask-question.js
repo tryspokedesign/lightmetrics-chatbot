@@ -775,9 +775,14 @@ function appendAnswerBubble(html) {
   // -------------------------------------
   const catSpan = a.querySelector(".chatbot_topic-aditional-heading-text");
   const heading = a.querySelector(".chatbot_topic-aditional-heading");
+  // Get the selected category element
+  const activeCat = document.querySelector(".chatbot_modal-topic-item.is-active");
 
-  if (window.activeKey && catSpan) {
-    catSpan.textContent = window.activeKey;
+  if (activeCat && catSpan) {
+    const labelEl = activeCat.querySelector("div");
+    const label = labelEl ? labelEl.textContent.trim() : window.activeKey;
+
+    catSpan.textContent = label;   // Show "Camera Setup"
   } else {
     if (heading && catSpan) {
       heading.textContent = "Do you have any additional questions?";
