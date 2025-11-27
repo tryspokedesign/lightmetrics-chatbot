@@ -1,11 +1,24 @@
-// -------------------------------------------
-// send-feedback.js
-// Handles LIKE + DISLIKE feedback submission
-// -------------------------------------------
+// --------------------------------------
+// AUTO-DETECT ENVIRONMENT (LIVE / STAGING)
+// --------------------------------------
+const hostname_feedback = window.location.hostname;
+let FEEDBACK_ENDPOINT = "";
 
-// Netlify endpoint
-const FEEDBACK_ENDPOINT =
-  "https://reseller-api-dev.lightmetrics.co/v1/llm-kb/save-feedback";
+// STAGING DOMAIN
+if (hostname_feedback.includes("webflow.io")) {
+  FEEDBACK_ENDPOINT = "https://reseller-api-dev.lightmetrics.co/v1/llm-kb/save-feedback";
+}
+// LIVE DOMAIN
+else if (hostname_feedback.includes("lightmetrics.co")) {
+  FEEDBACK_ENDPOINT = "https://reseller-api.lightmetrics.co/v1/llm-kb/save-feedback";
+}
+// FALLBACK (LOCAL or OTHER)
+else {
+  console.log("Send Feedback Api is not set");
+}
+// // Netlify endpoint
+// const FEEDBACK_ENDPOINT =
+//   "https://reseller-api-dev.lightmetrics.co/v1/llm-kb/save-feedback";
 
 // -------------------------------------------------------
 // Show success message INSIDE the specific answer block

@@ -1,4 +1,23 @@
-const ENDPOINT = "https://reseller-api-dev.lightmetrics.co/v1/llm-kb/all-categories";
+// --------------------------------------
+// AUTO-DETECT ENVIRONMENT (LIVE / STAGING)
+// --------------------------------------
+const hostname = window.location.hostname;
+
+let ENDPOINT = "";
+
+// STAGING DOMAIN
+if (hostname.includes("webflow.io")) {
+  ENDPOINT = "https://reseller-api-dev.lightmetrics.co/v1/llm-kb/all-categories";
+}
+// LIVE DOMAIN
+else if (hostname.includes("lightmetrics.co")) {
+  ENDPOINT = "https://reseller-api.lightmetrics.co/v1/llm-kb/all-categories";
+}
+// FALLBACK (LOCAL or OTHER)
+else {
+  console.log("Category Api is not set");
+}
+
 const LIST_ID = "all-category";
 
 (async function () {

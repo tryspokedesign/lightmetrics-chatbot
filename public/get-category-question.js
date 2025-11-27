@@ -1,7 +1,22 @@
 // Endpoints
+// --------------------------------------
+// AUTO-DETECT ENVIRONMENT (LIVE / STAGING)
+// --------------------------------------
+const hostname_category_question = window.location.hostname;
+let QUESTIONS_ENDPOINT = "";
 
-const QUESTIONS_ENDPOINT =
-  "https://reseller-api-dev.lightmetrics.co/v1/llm-kb/category-questions";
+// STAGING DOMAIN
+if (hostname_category_question.includes("webflow.io")) {
+  QUESTIONS_ENDPOINT = "https://reseller-api-dev.lightmetrics.co/v1/llm-kb/category-questions";
+}
+// LIVE DOMAIN
+else if (hostname_category_question.includes("lightmetrics.co")) {
+  QUESTIONS_ENDPOINT = "https://reseller-api.lightmetrics.co/v1/llm-kb/category-questions";
+}
+// FALLBACK (LOCAL or OTHER)
+else {
+  console.log("Category Question Api is not set");
+}
 
 const screen1 = document.querySelector(".chatbot_modal-screen1");
 const screen2 = document.querySelector(".chatbot_modal-screen2");

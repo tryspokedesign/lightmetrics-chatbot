@@ -1,7 +1,21 @@
-console.log("🚀 ask-question.js loaded");
+// --------------------------------------
+// AUTO-DETECT ENVIRONMENT (LIVE / STAGING)
+// --------------------------------------
+const hostname_ask_question = window.location.hostname;
+let ANSWER_ENDPOINT = "";
 
-const ANSWER_ENDPOINT =
-  "https://reseller-api-dev.lightmetrics.co/v1/llm-kb/get-answer";
+// STAGING DOMAIN
+if (hostname_ask_question.includes("webflow.io")) {
+  ANSWER_ENDPOINT = "https://reseller-api-dev.lightmetrics.co/v1/llm-kb/get-answer";
+}
+// LIVE DOMAIN
+else if (hostname_ask_question.includes("lightmetrics.co")) {
+  ANSWER_ENDPOINT = "https://reseller-api.lightmetrics.co/v1/llm-kb/get-answer";
+}
+// FALLBACK (LOCAL or OTHER)
+else {
+  console.log("Ask Question Api is not set");
+}
 
 // ----------------------------------
 // GLOBAL VARIABLES FOR FEEDBACK
