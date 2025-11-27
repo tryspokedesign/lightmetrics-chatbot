@@ -8,8 +8,11 @@ const ANSWER_ENDPOINT =
 // ----------------------------------
 window.__lastQuestion = "";
 window.__lastAnswer = "";
-window.__sessionId = "session-" + Date.now(); // generate unique
 window.__CHAT_CANCELED__ = false;
+// window.__sessionId = "session-" + Date.now(); // generate unique
+window.__sessionId = null;          // backend session ID
+window.__messageCount = 0;          // count only input questions
+window.__MESSAGE_LIMIT = 3;        // max allowed
 
 
 function markdownToHtml(md) {
@@ -41,10 +44,32 @@ function disableUI() {
 
 function enableUI() {
   console.log("🔓 UI Unlocked: Ready for new question");
+
+    // STOP enabling UI if message limit is reached
+    if (window.__messageCount >= window.__MESSAGE_LIMIT) {
+      console.log("🚫 UI stays DISABLED due to limit");
+      disableUI();   // force-disable everything
+      return;
+    }
+
   const input = document.querySelector(".chatbot_question-input");
   const btn = document.querySelector(".chatbot_question-submit");
   if (input) input.classList.remove("is-disabled");
   if (btn) btn.classList.remove("is-disabled");
+}
+
+
+// Show the Limit message element
+function showLimitReached() {
+  console.log("🚫 Message limit reached!");
+
+  const limitWrapper = document.querySelector(".chatbot_modal-limit-wrapper");
+  const input = document.querySelector(".chatbot_question-input");
+  const btn = document.querySelector(".chatbot_question-submit");
+
+  if (limitWrapper) limitWrapper.style.display = "block";
+  if (input) input.classList.add("is-disabled");
+  if (btn) btn.classList.add("is-disabled");
 }
 
 async function askLLM(question) {
@@ -99,7 +124,10 @@ async function askLLM(question) {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${token}`
       },
-      body: JSON.stringify({ question }),
+      body: JSON.stringify({
+        question,
+        sessionId: window.__sessionId || ""
+      }),
       signal: controller.signal 
     });
 
@@ -170,6 +198,19 @@ async function askLLM(question) {
           continue;
         }
 
+        // Backend sends session_id (snake_case)
+        if (obj.session_id) {
+          window.__sessionId = obj.session_id;
+          console.log("🎯 Session ID saved:", window.__sessionId);
+        }
+
+        // Also handle camelCase if backend changes later
+        if (obj.sessionId) {
+          window.__sessionId = obj.sessionId;
+          console.log("🎯 Session ID saved:", window.__sessionId);
+        }
+
+
         // ✔ 4a — text token received
         if (obj.text) {
           fullAnswer += obj.text;
@@ -185,6 +226,16 @@ async function askLLM(question) {
         // ✔ 4b — final sources event
         if (obj.sources) {
           sources = obj.sources;
+
+          if (obj.session_id) {
+            window.__sessionId = obj.session_id;
+            console.log("🎯 Session ID from final chunk:", window.__sessionId);
+          }
+        
+          if (obj.sessionId) { 
+            window.__sessionId = obj.sessionId;
+            console.log("🎯 Session ID from final chunk:", window.__sessionId);
+          }
         }
       }
     }
@@ -215,6 +266,14 @@ async function askLLM(question) {
 
     window.__lastQuestion = question;
     window.__lastAnswer = fullAnswer;
+
+    // ⬅️ NEW: After FULL answer received
+    if (window.__messageCount >= window.__MESSAGE_LIMIT) {
+      console.log("🚫 Limit reached AFTER answer");
+      showLimitReached();
+      disableUI();
+      return; // stop enabling UI
+    }
 
     isAsking = false;
     enableUI();
@@ -278,7 +337,8 @@ function initializeSubmitHandler() {
 
     // 🟢 FIX: Re-render category chips
     if (window.__CATEGORIES__) {
-      renderHeader(window.__CATEGORIES__, null);
+      // renderHeader(window.__CATEGORIES__, null);
+      renderHeader(window.__CATEGORIES__, window.activeKey || window.__activeKey);
       setTimeout(() => adjustHeaderDropdown(), 50);
     }
     // window.__CHAT_CANCELED__ = false;
@@ -308,6 +368,16 @@ function initializeSubmitHandler() {
       }
     }
     adjustHeaderDropdown();
+
+    window.__messageCount++;
+    console.log("🧮 Message Count:", window.__messageCount);
+
+    // // Check limit
+    // if (window.__messageCount >= window.__MESSAGE_LIMIT) {
+    //     disableUI();  
+    //     showLimitReached();
+    //     return;
+    // }
   };
 
   if (btn) {
@@ -751,9 +821,22 @@ function clearEverything() {
     console.log("🛑 Aborting LLM stream...");
     window.__LLM_CONTROLLER__.abort();
   }
-window.__CHAT_CANCELED__ = true;
-enableUI();
-isAsking = false;
+  window.__CHAT_CANCELED__ = true;
+  enableUI();
+  isAsking = false;
+
+  window.__messageCount = 0;
+  window.__sessionId = null;
+
+  // hide limit banner
+  const limitWrapper = document.querySelector(".chatbot_modal-limit-wrapper");
+  if (limitWrapper) limitWrapper.style.display = "none";
+
+  // enable input field
+  const input = document.querySelector(".chatbot_question-input");
+  const btn = document.querySelector(".chatbot_question-submit");
+  if (input) input.classList.remove("is-disabled");
+  if (btn) btn.classList.remove("is-disabled");
 
 
   // -----------------------------
@@ -828,3 +911,28 @@ document.addEventListener("click", (e) => {
   console.log("🧹 Topic close icon clicked — clearing chat");
   clearEverything();
 });
+
+
+document.addEventListener("click", (e) => {
+  const btn = e.target.closest(".chatbot_chat-button");
+  if (!btn) return;
+
+  console.log("🔄 New Chat triggered");
+
+  clearEverything();  // clears UI & thread
+
+  window.__sessionId = null;   // reset session
+  window.__messageCount = 0;   // reset message count
+
+  // hide limit wrapper
+  const limitWrapper = document.querySelector(".chatbot_modal-limit-wrapper");
+  if (limitWrapper) limitWrapper.style.display = "none";
+
+  // enable input again
+  const input = document.querySelector(".chatbot_question-input");
+  const sendBtn = document.querySelector(".chatbot_question-submit");
+  if (input) input.classList.remove("is-disabled");
+  if (sendBtn) sendBtn.classList.remove("is-disabled");
+});
+
+

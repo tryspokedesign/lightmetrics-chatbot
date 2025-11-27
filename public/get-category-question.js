@@ -227,6 +227,18 @@ function renderQuestions(questions) {
 
       console.log("🟢 User clicked suggested question:", text);
 
+      // ⬆️ COUNT AS A MESSAGE
+      window.__messageCount++;
+      console.log("🧮 Message Count:", window.__messageCount);
+
+      // ⛔ If limit reached → show limit, block asking
+      if (window.__messageCount > window.__MESSAGE_LIMIT) {
+        console.log("🚫 Limit reached from category question");
+        showLimitReached();
+        disableUI();
+        return;
+      }
+
       isAsking = true; // 🔐 lock clicks
       disableUI();
       askLLM(text);
@@ -268,6 +280,11 @@ async function showCategory(categoryKey) {
   disableUI()
   allCategories = window.__CATEGORIES__ || {};
   activeKey = categoryKey;
+
+  // 👇 Add this
+  window.activeKey = categoryKey;
+  window.__activeKey = categoryKey;
+
   const label = allCategories[categoryKey] || categoryKey;
 
   screen1.style.display = "none";

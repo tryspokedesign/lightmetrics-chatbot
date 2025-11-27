@@ -71,6 +71,9 @@
   margin: 0 auto;
   width: 100%;
 }
+.expand-box .chatbot_modal-header-right {
+  grid-column-gap: 1.5rem;
+}
   
 /* Chatbot Form CSS */
 .chatbot_action-form-checkbox:has(.w--redirected-checked) {
@@ -151,5 +154,13 @@
     .chatbot_modal-actions-wrapper {
         opacity: 1 !important;
         display: flex !important;
+    }
+    .expand-box .chatbot_modal-clear-chat {
+      padding: 0.5rem;
+      margin: -0.5rem;
+      border: none;
+    }
+    .expand-box .chatbot_modal-header-right {
+      grid-column-gap: 1rem;
     }
 }
