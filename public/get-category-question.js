@@ -5,11 +5,11 @@ const hostname_category_question = window.location.hostname;
 let QUESTIONS_ENDPOINT = "";
 
 // STAGING DOMAIN
-if (hostname_category_question.includes("webflow.io")) {
+if (hostname_category_question.match(/^lightmetrics-website\.webflow\.io$/)) {
   QUESTIONS_ENDPOINT = "https://reseller-api-dev.lightmetrics.co/v1/llm-kb/category-questions";
 }
 // LIVE DOMAIN
-else if (hostname_category_question.includes("lightmetrics.co")) {
+else if (hostname_category_question.match(/^(www\.)?lightmetrics\.co$/)) {
   QUESTIONS_ENDPOINT = "https://reseller-api.lightmetrics.co/v1/llm-kb/category-questions";
 }
 // FALLBACK (LOCAL or OTHER)

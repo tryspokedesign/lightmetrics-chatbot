@@ -6,11 +6,11 @@ const hostname = window.location.hostname;
 let ENDPOINT = "";
 
 // STAGING DOMAIN
-if (hostname.includes("webflow.io")) {
+if (hostname.match(/^lightmetrics-website\.webflow\.io$/)) {
   ENDPOINT = "https://reseller-api-dev.lightmetrics.co/v1/llm-kb/all-categories";
 }
 // LIVE DOMAIN
-else if (hostname.includes("lightmetrics.co")) {
+else if (hostname.match(/^(www\.)?lightmetrics\.co$/)) {
   ENDPOINT = "https://reseller-api.lightmetrics.co/v1/llm-kb/all-categories";
 }
 // FALLBACK (LOCAL or OTHER)

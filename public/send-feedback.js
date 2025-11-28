@@ -5,11 +5,11 @@ const hostname_feedback = window.location.hostname;
 let FEEDBACK_ENDPOINT = "";
 
 // STAGING DOMAIN
-if (hostname_feedback.includes("webflow.io")) {
+if (hostname_feedback.match(/^lightmetrics-website\.webflow\.io$/)) {
   FEEDBACK_ENDPOINT = "https://reseller-api-dev.lightmetrics.co/v1/llm-kb/save-feedback";
 }
 // LIVE DOMAIN
-else if (hostname_feedback.includes("lightmetrics.co")) {
+else if (hostname_feedback.match(/^(www\.)?lightmetrics\.co$/)) {
   FEEDBACK_ENDPOINT = "https://reseller-api.lightmetrics.co/v1/llm-kb/save-feedback";
 }
 // FALLBACK (LOCAL or OTHER)
