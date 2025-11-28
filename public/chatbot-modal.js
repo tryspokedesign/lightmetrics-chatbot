@@ -63,6 +63,7 @@ $(document).ready(function () {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
       $(".chatbot_question-submit").click();
+      $(this).blur();
     }
   });
 

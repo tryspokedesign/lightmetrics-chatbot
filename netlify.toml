@@ -6,39 +6,6 @@ directory = "netlify/functions"
   functions = "netlify/functions"   # where our function lives
   publish = "public"                 # optional; static files if any
 
-# (Optional) If you want a pretty path like /api/health
-[[redirects]]
-  from = "/api/health"
-  to = "/.netlify/functions/health-proxy"
-  status = 200
-
-
-[[redirects]]
-  from = "/api/all-categories"
-  to = "/.netlify/functions/all-categories"
-  status = 200
-
-[[redirects]]
-from = "/api/category-questions"
-to   = "/.netlify/functions/category-questions"
-status = 200
-
-[[redirects]]
-from = "/api/get-answer"
-to   = "/.netlify/functions/get-answer"
-status = 200
-
-[[redirects]]
-from = "/api/save-feedback"
-to   = "/.netlify/functions/save-feedback"
-status = 200
-
-# Also catch trailing slash or any extra path bits
-[[redirects]]
-from = "/api/health/*"
-to   = "/.netlify/functions/health-proxy"
-status = 200
-force = true
 
 [[headers]]
   for = "/*.html"
@@ -46,7 +13,6 @@ force = true
     Access-Control-Allow-Origin = "*"
     Access-Control-Allow-Headers = "*"
     Access-Control-Allow-Methods = "GET, OPTIONS"
-
 
 [[headers]]
   for = "/*.js"

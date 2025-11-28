@@ -8,7 +8,7 @@
    CSS RESET & BASE STYLES
    ==================================================================== */
 
-   html {
+html {
     -webkit-text-size-adjust: 100%;
     -ms-text-size-adjust: 100%;
     font-family: sans-serif;
@@ -91,22 +91,20 @@ svg:not(:root) {
     overflow: hidden;
 }
 
-
-
 /* ====================================================================
    WEBFLOW FRAMEWORK CLASSES
    ==================================================================== */
 
-   html.w-mod-touch * {
+html.w-mod-touch * {
     background-attachment: scroll !important;
 }
 
-.chatbot_wrapper .w-inline-block {
+.w-inline-block {
     max-width: 100%;
     display: inline-block;
 }
 
-.chatbot_wrapper .w-button {
+.w-button {
     color: #fff;
     line-height: inherit;
     cursor: pointer;
@@ -118,136 +116,136 @@ svg:not(:root) {
     display: inline-block;
 }
 
-.chatbot_wrapper input.w-button {
+input.w-button {
     -webkit-appearance: button;
 }
 
-.chatbot_wrapper .w-embed:before, .chatbot_wrapper .w-embed:after {
+.w-embed:before, .w-embed:after {
     content: " ";
     grid-area: 1/1/2/2;
     display: table;
 }
 
-.chatbot_wrapper .w-embed:after {
+.w-embed:after {
     clear: both;
 }
 
-/* .chatbot_wrapper .w-form {
+.w-form {
     margin: 0 0 15px;
-} */
+}
 
-.chatbot_wrapper .w-form-done {
+.w-form-done {
     padding: 20px;
     text-align: center;
     background-color: #dddddd;
     display: none;
 }
 
-.chatbot_wrapper .w-form-fail {
+.w-form-fail {
     padding: 10px;
     margin-top: 10px;
     background-color: #ffdede;
     display: none;
 }
 
-.chatbot_wrapper .w-input, .chatbot_wrapper .w-select {
+.w-input, .w-select {
     width: 100%;
-    /* height: 38px; */
+    height: 38px;
     color: #333333;
     vertical-align: middle;
     background-color: #ffffff;
     border: 1px solid #cccccc;
+    margin-bottom: 10px;
+    padding: 8px 12px;
     font-size: 14px;
     line-height: 1.42857;
     display: block;
-    margin: 0;
 }
 
-.chatbot_wrapper .w-input::placeholder, .chatbot_wrapper .w-select::placeholder {
+.w-input::placeholder, .w-select::placeholder {
     color: #999;
 }
 
-.chatbot_wrapper .w-input:focus, .chatbot_wrapper .w-select:focus {
-    /* border-color: #3898EC; */
+.w-input:focus, .w-select:focus {
+    border-color: #3898EC;
     outline: 0;
 }
 
-/* .chatbot_wrapper .w-checkbox {
+.w-checkbox {
     margin-bottom: 5px;
     padding-left: 20px;
     display: block;
-} */
+}
 
-.chatbot_wrapper .w-checkbox:before, .chatbot_wrapper .w-checkbox:after {
+.w-checkbox:before, .w-checkbox:after {
     content: " ";
     grid-area: 1/1/2/2;
     display: table;
 }
 
-.chatbot_wrapper .w-checkbox:after {
+.w-checkbox:after {
     clear: both;
 }
 
-/* .chatbot_wrapper .w-checkbox-input {
+.w-checkbox-input {
     float: left;
     margin: 4px 0 0 -20px;
     line-height: normal;
-} */
+}
 
-.chatbot_wrapper .w-checkbox-input--inputType-custom {
+.w-checkbox-input--inputType-custom {
     border: 1px solid #ccc;
     border-radius: 2px;
     width: 12px;
     height: 12px;
 }
 
-/* .chatbot_wrapper .w-checkbox-input--inputType-custom.w--redirected-checked {
+.w-checkbox-input--inputType-custom.w--redirected-checked {
     background-color: #3898ec;
     background-image: url(https://d3e54v103j8qbb.cloudfront.net/static/custom-checkbox-checkmark.589d534424.svg);
     background-position: 50%;
     background-repeat: no-repeat;
     background-size: cover;
     border-color: #3898ec;
-} */
+}
 
-/* .chatbot_wrapper .w-checkbox-input--inputType-custom.w--redirected-focus {
+.w-checkbox-input--inputType-custom.w--redirected-focus {
     box-shadow: 0 0 3px 1px #3898ec;
-} */
+}
 
-.chatbot_wrapper .w-dropdown {
+.w-dropdown {
     text-align: left;
-    /* margin-left: auto;
-    margin-right: auto; */
+    margin-left: auto;
+    margin-right: auto;
     display: inline-block;
     position: relative;
 }
 
-.chatbot_wrapper .w-dropdown-toggle {
+.w-dropdown-toggle {
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
     cursor: pointer;
-    /* padding-right: 40px;
-    display: inline-block; */
+    padding-right: 40px;
+    display: inline-block;
     position: relative;
 }
 
-.chatbot_wrapper .w-dropdown-toggle:focus {
+.w-dropdown-toggle:focus {
     outline: 0;
 }
 
-.chatbot_wrapper .w-dropdown-list {
-    /* background: #dddddd; */
+.w-dropdown-list {
+    background: #dddddd;
     min-width: 100%;
     display: none;
     position: absolute;
 }
 
-.chatbot_wrapper .w-dropdown-list.w--open {
+.w-dropdown-list.w--open {
     display: block;
 }
-
 
 /* ====================================================================
    CSS VARIABLES
@@ -269,47 +267,47 @@ svg:not(:root) {
    UTILITY CLASSES
    ==================================================================== */
 
-.chatbot_wrapper .hide {
+.hide {
     display: none;
 }
 
-.chatbot_wrapper .margin-0 {
+.margin-0 {
     margin: 0;
 }
 
-.chatbot_wrapper .spacer-small {
+.spacer-small {
     padding-bottom: 1rem;
 }
 
-.chatbot_wrapper .spacer-xsmall {
+.spacer-xsmall {
     padding-bottom: 0.75rem;
 }
 
-.chatbot_wrapper .spacer-xxsmall {
+.spacer-xxsmall {
     padding-bottom: 0.5rem;
 }
 
-.chatbot_wrapper .spacer-xxxsmall {
+.spacer-xxxsmall {
     padding-bottom: 0.25rem;
 }
 
-.chatbot_wrapper .spacer-custom-1 {
+.spacer-custom-1 {
     padding-bottom: 1.25rem;
 }
 
-.chatbot_wrapper .spacer-custom-2 {
+.spacer-custom-2 {
     padding-bottom: 1.5rem;
 }
 
-.chatbot_wrapper .spacer-medium {
+.spacer-medium {
     padding-bottom: 2rem;
 }
 
-.chatbot_wrapper .spacer-large {
+.spacer-large {
     padding-bottom: 3rem;
 }
 
-.chatbot_wrapper .icon-embed-xsmall {
+.icon-embed-xsmall {
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -318,7 +316,7 @@ svg:not(:root) {
     display: flex;
 }
 
-.chatbot_wrapper .icon-embed-xxsmall {
+.icon-embed-xxsmall {
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -1022,14 +1020,14 @@ svg:not(:root) {
 }
 
 .chatbot_action-aditional-text {
-    border: 1px solid #a3a3a3 !important;
+    border: 1px solid #a3a3a3;
     border-radius: 0.25rem;
-    margin-bottom: 12px !important;
+    margin-bottom: 12px;
     transition: border-color 0.3s;
 }
 
 .chatbot_action-aditional-text:focus {
-    border-color: #727272 !important;
+    border-color: #727272;
 }
 
 .chatbot_action-form-submit {
@@ -1058,11 +1056,6 @@ svg:not(:root) {
     background-color: #ececec;
     border: 1px solid #d9d9d9;
 }
-
-.text-align-right {
-    text-align: right
-}
-
 
 .chatbot_action-form-error {
     color: #ff2222;
@@ -1199,7 +1192,7 @@ svg:not(:root) {
 }
 
 .chatbot_question-input:focus {
-    border-color: #2998a2 !important;
+    border-color: #2998a2;
     box-shadow: 0 0 0 1px #2998a2;
 }
 
@@ -1225,7 +1218,6 @@ svg:not(:root) {
     transition: background-color 0.3s;
     display: flex;
     position: absolute;
-    border: none;
 }
 
 .chatbot_question-submit:hover {
@@ -1315,7 +1307,6 @@ svg:not(:root) {
     text-decoration: none;
     transition: border-color 0.3s;
     display: flex;
-    width: 100%;
 }
 
 .chatbot_chat-button:hover {
@@ -1457,7 +1448,6 @@ svg:not(:root) {
     padding: 0.5rem 0.75rem 0.5rem 0.5rem;
     border: 1px solid #b7b7b7;
     color: #000000;
-    margin-right: 0px;
 }
 
 .expand-box .chatbot_modal-topic-item {
@@ -1488,7 +1478,7 @@ svg:not(:root) {
 }
 
 .expand-box .chatbot_modal-header-right {
-    grid-column-gap: 1rem;
+    grid-column-gap: 1.5rem;
 }
 
 /* Chatbot Form CSS */
@@ -1575,7 +1565,6 @@ svg:not(:root) {
         padding: 0.5rem;
         margin: -0.5rem;
         border: none;
-        margin-right: 0;
     }
 
     .expand-box .chatbot_modal-header-right {
@@ -1584,5 +1573,4 @@ svg:not(:root) {
 }
 
 /* END OF CHATBOT MINIMAL CSS */
-
 
