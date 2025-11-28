@@ -274,6 +274,9 @@ async function askLLM(question) {
     if (window.__messageCount >= window.__MESSAGE_LIMIT) {
       showLimitReached();
       disableUI();
+      document
+      .querySelectorAll(".chatbot_topic-aditional-question")
+      .forEach(el => el.style.display = "none");
       return; // stop enabling UI
     }
 

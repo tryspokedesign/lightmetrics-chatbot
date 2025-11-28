@@ -1,14 +1,8 @@
 /* ====================================================================
-   CHATBOT MINIMAL CSS
-   Optimized stylesheet containing only classes used in chatbot
-   Generated from styles.css (14,311 lines) -> ~2,500 lines
-   ==================================================================== */
-
-/* ====================================================================
    CSS RESET & BASE STYLES
    ==================================================================== */
 
-   html {
+html {
     -webkit-text-size-adjust: 100%;
     -ms-text-size-adjust: 100%;
     font-family: sans-serif;
@@ -91,19 +85,32 @@ svg:not(:root) {
     overflow: hidden;
 }
 
+html.w-mod-touch * {
+    background-attachment: scroll !important;
+}
 
+/* ====================================================================
+   CSS VARIABLES
+   ==================================================================== */
+
+:root {
+    --text-primary: #1a1a1a;
+    --text-secondary: #52525b;
+    --text-invert: #fff;
+    --white: #fff;
+    --surface-brand: #8b2783;
+    --surface-brand_hover: #a82e9d;
+    --surface-primary: #fff;
+    --surface-secondary: #f5f5f5;
+    --green: #2899a2;
+}
 
 /* ====================================================================
    WEBFLOW FRAMEWORK CLASSES
    ==================================================================== */
 
-   html.w-mod-touch * {
-    background-attachment: scroll !important;
-}
-
 .chatbot_wrapper .w-inline-block {
     max-width: 100%;
-    display: inline-block;
 }
 
 .chatbot_wrapper .w-button {
@@ -132,10 +139,6 @@ svg:not(:root) {
     clear: both;
 }
 
-/* .chatbot_wrapper .w-form {
-    margin: 0 0 15px;
-} */
-
 .chatbot_wrapper .w-form-done {
     padding: 20px;
     text-align: center;
@@ -152,7 +155,6 @@ svg:not(:root) {
 
 .chatbot_wrapper .w-input, .chatbot_wrapper .w-select {
     width: 100%;
-    /* height: 38px; */
     color: #333333;
     vertical-align: middle;
     background-color: #ffffff;
@@ -168,15 +170,9 @@ svg:not(:root) {
 }
 
 .chatbot_wrapper .w-input:focus, .chatbot_wrapper .w-select:focus {
-    /* border-color: #3898EC; */
     outline: 0;
 }
 
-/* .chatbot_wrapper .w-checkbox {
-    margin-bottom: 5px;
-    padding-left: 20px;
-    display: block;
-} */
 
 .chatbot_wrapper .w-checkbox:before, .chatbot_wrapper .w-checkbox:after {
     content: " ";
@@ -188,12 +184,6 @@ svg:not(:root) {
     clear: both;
 }
 
-/* .chatbot_wrapper .w-checkbox-input {
-    float: left;
-    margin: 4px 0 0 -20px;
-    line-height: normal;
-} */
-
 .chatbot_wrapper .w-checkbox-input--inputType-custom {
     border: 1px solid #ccc;
     border-radius: 2px;
@@ -201,23 +191,8 @@ svg:not(:root) {
     height: 12px;
 }
 
-/* .chatbot_wrapper .w-checkbox-input--inputType-custom.w--redirected-checked {
-    background-color: #3898ec;
-    background-image: url(https://d3e54v103j8qbb.cloudfront.net/static/custom-checkbox-checkmark.589d534424.svg);
-    background-position: 50%;
-    background-repeat: no-repeat;
-    background-size: cover;
-    border-color: #3898ec;
-} */
-
-/* .chatbot_wrapper .w-checkbox-input--inputType-custom.w--redirected-focus {
-    box-shadow: 0 0 3px 1px #3898ec;
-} */
-
 .chatbot_wrapper .w-dropdown {
     text-align: left;
-    /* margin-left: auto;
-    margin-right: auto; */
     display: inline-block;
     position: relative;
 }
@@ -228,8 +203,6 @@ svg:not(:root) {
     -ms-user-select: none;
     user-select: none;
     cursor: pointer;
-    /* padding-right: 40px;
-    display: inline-block; */
     position: relative;
 }
 
@@ -238,7 +211,6 @@ svg:not(:root) {
 }
 
 .chatbot_wrapper .w-dropdown-list {
-    /* background: #dddddd; */
     min-width: 100%;
     display: none;
     position: absolute;
@@ -249,21 +221,6 @@ svg:not(:root) {
 }
 
 
-/* ====================================================================
-   CSS VARIABLES
-   ==================================================================== */
-
-:root {
-    --text-primary: #1a1a1a;
-    --text-secondary: #52525b;
-    --text-invert: #fff;
-    --white: #fff;
-    --surface-brand: #8b2783;
-    --surface-brand_hover: #a82e9d;
-    --surface-primary: #fff;
-    --surface-secondary: #f5f5f5;
-    --green: #2899a2;
-}
 
 /* ====================================================================
    UTILITY CLASSES
@@ -327,6 +284,10 @@ svg:not(:root) {
     display: flex;
 }
 
+/* ====================================================================
+CHATBOT STYLES
+==================================================================== */
+
 .is-disabled {
     opacity: 0.4;
     pointer-events: none;
@@ -339,10 +300,6 @@ svg:not(:root) {
 .collapse-icon {
     display: none;
 }
-
-/* ====================================================================
-   CHATBOT STYLES
-   ==================================================================== */
 
 .chatbot_wrapper {
     z-index: 100;
@@ -566,9 +523,9 @@ svg:not(:root) {
     font-weight: 400;
 }
 
-.chatbot_modal-topic-wrapper {
-    /* Added for structure */
-}
+/* ====================================================================
+   CHATBOT TOPIC STYLES
+   ==================================================================== */
 
 .chatbot_modal-topic-heading {
     color: #949494;
@@ -698,10 +655,6 @@ svg:not(:root) {
     display: none;
 }
 
-.chatbot_icon {
-    /* Structure for icon wrapper - styles defined inline in JS */
-}
-
 .chatbot_embed-icon {
     justify-content: center;
     align-items: center;
@@ -809,10 +762,6 @@ svg:not(:root) {
     line-height: 1.25rem;
 }
 
-.chatbot_selected-topic {
-    /* Inline span - inherits styles */
-}
-
 .chatbot_topic-question-wrapper {
     display: block;
 }
@@ -863,10 +812,6 @@ svg:not(:root) {
 
 .chatbot_source-number:hover {
     opacity: 0.5;
-}
-
-.chatbot_sources-inline {
-    /* Inline span - defined in styles-chatbot.css */
 }
 
 .chatbot_modal-clear-chat {
@@ -1240,10 +1185,6 @@ svg:not(:root) {
     right: 3.5rem;
 }
 
-.chatbot_input-character-count {
-    /* Inline span - inherits from parent */
-}
-
 .chatbot_modal-form-label {
     color: #949494;
     text-align: center;
@@ -1279,16 +1220,8 @@ svg:not(:root) {
     display: flex;
 }
 
-.chatbot_modal-limit-text {
-    /* Text content */
-}
-
 .chatbot_modal-header-span {
     font-weight: 600;
-}
-
-.chatbot_modal-limit-right {
-    /* Defined in media query */
 }
 
 .chatbot_modal-limit-info-icon {
@@ -1314,7 +1247,7 @@ svg:not(:root) {
     line-height: 1.25rem;
     text-decoration: none;
     transition: border-color 0.3s;
-    display: flex;
+    display: flex !important;
     width: 100%;
 }
 
