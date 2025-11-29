@@ -25,21 +25,29 @@
       link.href = BASE + file;
       document.head.appendChild(link);
     });
-  
-    // ---- 3. Load JavaScript (chatbot scripts) ----
-    const scripts = [
-      "/js/chatbot-modal.js",
-      "/js/get-all-categories.js",
-      "/js/get-category-question.js",
-      "/js/ask-question.js",
-      "/js/send-feedback.js"
-    ];
-  
-    for (const file of scripts) {
-      const tag = document.createElement("script");
-      tag.src = BASE + file;
-      tag.defer = true;
-      document.body.appendChild(tag);
+
+    // ---- 3. Load JavaScript sequentially ----
+    async function loadScript(src) {
+      return new Promise((resolve, reject) => {
+        const s = document.createElement("script");
+        s.src = src;
+        s.onload = resolve;
+        s.onerror = reject;
+        document.body.appendChild(s);
+      });
+    }
+
+    try {
+      await loadScript(`${BASE}/env.js`);
+
+      await loadScript(`${BASE}/js/chatbot-modal.js`);
+      await loadScript(`${BASE}/js/get-all-categories.js`);
+      await loadScript(`${BASE}/js/get-category-question.js`);
+      await loadScript(`${BASE}/js/ask-question.js`);
+      await loadScript(`${BASE}/js/send-feedback.js`);
+
+    } catch (err) {
+      console.error("Failed to load scripts:", err);
     }
   
     // ---- 4. Show wrapper after all elements exist ----

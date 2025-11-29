@@ -1,21 +1,7 @@
-// --------------------------------------
-// AUTO-DETECT ENVIRONMENT (LIVE / STAGING)
-// --------------------------------------
-const hostname_feedback = window.location.hostname;
-let FEEDBACK_ENDPOINT = "";
-
-// STAGING DOMAIN
-if (hostname_feedback.match(/^lightmetrics-website\.webflow\.io$/)) {
-  FEEDBACK_ENDPOINT = "https://reseller-api-dev.lightmetrics.co/v1/llm-kb/save-feedback";
-}
-// LIVE DOMAIN
-else if (hostname_feedback.match(/^(www\.)?lightmetrics\.co$/)) {
-  FEEDBACK_ENDPOINT = "https://reseller-api.lightmetrics.co/v1/llm-kb/save-feedback";
-}
-// FALLBACK (LOCAL or OTHER)
-else {
-  console.log("Send Feedback Api is not set");
-}
+// // --------------------------------------
+// // AUTO-DETECT ENVIRONMENT (LIVE / STAGING)
+// // --------------------------------------
+let FEEDBACK_ENDPOINT = API_SAVE_FEEDBACK;
 
 
 // -------------------------------------------------------
