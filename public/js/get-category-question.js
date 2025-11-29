@@ -53,8 +53,8 @@ function renderHeader(categoriesMap, activeKey) {
     if (k === activeKey) chip.classList.add("is-active");
     chip.innerHTML = `
       <div>${v}</div>
-      <img src="https://cdn.prod.website-files.com/6560b4c29203fafcb9f6c716/69141f99bb1c116f61715ecc_close.svg"
-           loading="lazy" alt="close-icon" class="chatbot_modal-topic-close">
+      <img src="https://lightmetrics-chatbot.netlify.app/assets/close.svg"
+             alt="close-icon" class="chatbot_modal-topic-close">
     `;
     headerList.appendChild(chip);
   });
@@ -65,7 +65,7 @@ function renderHeader(categoriesMap, activeKey) {
   dropdown.innerHTML = `
     <div class="chatbot_topic-dropdown-toggle w-dropdown-toggle" role="button" tabindex="0">
       <div>+<span id="topics-counter">0</span> more</div>
-      <img src="https://cdn.prod.website-files.com/6560b4c29203fafcb9f6c716/69142ff8cd34d1be0d12bc6f_arrow_down.svg" loading="lazy" alt="">
+      <img src="https://lightmetrics-chatbot.netlify.app/assets/arrow_down.svg" alt="arrow-down-icon">
     </div>
     <nav class="chatbot_topic-dropdown-navigation w-dropdown-list" style="display:none;">
       <div class="chatbot_topic-dropdown-list"></div>
@@ -169,8 +169,8 @@ function renderQuestions(questions) {
     pill.className = "chatbot_topic-suggections-item";
     pill.innerHTML = `
       <div>${text}</div>
-      <img src="https://cdn.prod.website-files.com/6560b4c29203fafcb9f6c716/69141f99bb1c116f61715ecc_close.svg"
-           loading="lazy" alt="" class="chatbot_modal-topic-close">
+      <img src="https://lightmetrics-chatbot.netlify.app/assets/close.svg"
+          alt="close-icon" class="chatbot_modal-topic-close">
     `;
 
     // NEW - when clicking question → ask LLM

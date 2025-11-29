@@ -58,8 +58,7 @@ const LIST_ID = "all-category";
         item.innerHTML = `
           <div>${value}</div>
           <img
-            src="https://cdn.prod.website-files.com/6560b4c29203fafcb9f6c716/69141f99bb1c116f61715ecc_close.svg"
-            loading="lazy"
+            src="https://lightmetrics-chatbot.netlify.app/assets/close.svg"
             alt="close-icon"
             class="chatbot_modal-topic-close"
           >
